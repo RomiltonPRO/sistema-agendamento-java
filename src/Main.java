@@ -12,7 +12,9 @@ public class Main {
         int opcao = 0;
 
                 while (opcao != 4) {
-            System.out.println("\n===== SISTEMA DE AGENDAMENTO =====");
+            System.out.println("==========================");
+            System.out.println("||SISTEMA DE AGENDAMENTO||");
+            System.out.println("==========================");
             System.out.println("1 - Cadastrar Cliente");
             System.out.println("2 - Criar Agendamento");
             System.out.println("3 - Listar Agendamentos");

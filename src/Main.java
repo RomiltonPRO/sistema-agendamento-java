@@ -11,11 +11,8 @@ public class Main {
         ArrayList<Agendamento> bancoAgendamentos = new ArrayList<>();
         int opcao = 0;
 
-        while (opcao != 4) {
-
-            System.out.println("==========================");
-            System.out.println("\n ||SISTEMA DE AGENDAMENTO||");
-            System.out.println("==========================");
+                while (opcao != 4) {
+            System.out.println("\n===== SISTEMA DE AGENDAMENTO =====");
             System.out.println("1 - Cadastrar Cliente");
             System.out.println("2 - Criar Agendamento");
             System.out.println("3 - Listar Agendamentos");
@@ -24,9 +21,9 @@ public class Main {
             opcao = teclado.nextInt();
             teclado.nextLine(); 
 
-            case 1:
+            switch (opcao) {
+                case 1:
                     System.out.println("\n=== NOVO CADASTRO DE CLIENTE ===");
-                    
                     System.out.print("Digite o ID do cliente: ");
                     int idCli = teclado.nextInt();
                     teclado.nextLine(); 
@@ -40,44 +37,32 @@ public class Main {
                     System.out.print("Digite o telefone: ");
                     String telefoneCli = teclado.nextLine();
 
-                    
                     Cliente novoCliente = new Cliente(idCli, nomeCli, emailCli, telefoneCli);
-
-                    
                     bancoClientes.add(novoCliente);
 
                     System.out.println("✅ Cliente cadastrado com sucesso!");
-
                     break;
 
-            case 2:
-                                    case 2:
+                case 2:
                     System.out.println("\n=== NOVO AGENDAMENTO DE SERVIÇO ===");
-                    
-                    
                     System.out.print("Digite o ID do cliente que está agendando: ");
                     int idBuscado = teclado.nextInt();
                     teclado.nextLine(); 
 
                     Cliente clienteEncontrado = null;
-
-                    
                     for (Cliente c : bancoClientes) {
                         if (c.getId() == idBuscado) {
-                            clienteEncontrado = c; 
+                            clienteEncontrado = c;
                             break;
                         }
                     }
 
-            
                     if (clienteEncontrado == null) {
-                        System.out.println("❌ Erro: Nenhum cliente encontrado com o ID " + idBuscado + ". Cadastre o cliente primeiro!");
-                        break;
+                        System.out.println("❌ Erro: Nenhum cliente encontrado com este ID!");
+                        break; 
                     }
 
-                    
                     System.out.println("👤 Cliente encontrado: " + clienteEncontrado.getNome());
-
                     System.out.print("Digite o ID do agendamento: ");
                     int idAgendamento = teclado.nextInt();
                     teclado.nextLine(); 
@@ -91,30 +76,42 @@ public class Main {
                     System.out.print("Digite o tipo de serviço: ");
                     String servicoAgendamento = teclado.nextLine();
 
-                    
                     Agendamento novoAgendamento = new Agendamento(idAgendamento, dataAgendamento, horaAgendamento, servicoAgendamento, clienteEncontrado);
-
                     bancoAgendamentos.add(novoAgendamento);
 
-                    System.out.println("✅ Agendamento realizado com sucesso para " + clienteEncontrado.getNome() + "!");
-
+                    System.out.println("✅ Agendamento realizado com sucesso!");
                     break;
 
-            case 3:
-                    System.out.println("\n--- [Opção 3 selecionada] ---");
-                    
+                case 3:
+                    System.out.println("\n=== LISTA DE AGENDAMENTOS CADASTRADOS ===");
+                    if (bancoAgendamentos.isEmpty()) {
+                        System.out.println("⚠️ Nenhum agendamento realizado até o momento.");
+                        break;
+                    }
+
+                    for (Agendamento ag : bancoAgendamentos) {
+                        System.out.println("\n-----------------------------------------");
+                        System.out.println("ID Agendamento: " + ag.getId());
+                        System.out.println("Serviço:        " + ag.getServico());
+                        System.out.println("Data/Hora:      " + ag.getData() + " às " + ag.getHora());
+                        System.out.println("Cliente:        " + ag.getCliente().getNome());
+                        System.out.println("Contato:        " + ag.getCliente().getTelefone());
+                        System.out.println("-----------------------------------------");
+                    }
                     break;
 
-            case 4:
+                case 4:
                     System.out.println("\nSaindo do sistema... Obrigado!");
                     break;
 
-            default:
+                default:
                     System.out.println("\nOpção inválida! Tente novamente.");
                     break;
-        }
+            } 
+        } 
 
-        
+
+         teclado.close(); 
     }
 
 }

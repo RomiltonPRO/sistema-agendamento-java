@@ -1,14 +1,14 @@
 import model.Cliente;
+import model.ClienteDAO;
 import model.Agendamento;
+import model.AgendamentoDAO;
+
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner teclado = new Scanner(System.in);
-        ArrayList<Cliente> bancoClientes = new ArrayList<>();
-        ArrayList<Agendamento> bancoAgendamentos = new ArrayList<>();
+        Scanner teclado = new Scanner(System.in);        
         int opcao = 0;
 
                 while (opcao != 4) {
@@ -24,6 +24,7 @@ public class Main {
             teclado.nextLine(); 
 
             switch (opcao) {
+
                 case 1:
                     System.out.println("\n=== NOVO CADASTRO DE CLIENTE ===");
                     System.out.print("Digite o ID do cliente: ");
@@ -39,32 +40,34 @@ public class Main {
                     System.out.print("Digite o telefone: ");
                     String telefoneCli = teclado.nextLine();
 
+                    
                     Cliente novoCliente = new Cliente(idCli, nomeCli, emailCli, telefoneCli);
-                    bancoClientes.add(novoCliente);
 
-                    System.out.println("✅ Cliente cadastrado com sucesso!");
+                    ClienteDAO clienteDao = new ClienteDAO();
+                    clienteDao.salvar(novoCliente);
+
                     break;
+
 
                 case 2:
                     System.out.println("\n=== NOVO AGENDAMENTO DE SERVIÇO ===");
+                    
                     System.out.print("Digite o ID do cliente que está agendando: ");
                     int idBuscado = teclado.nextInt();
                     teclado.nextLine(); 
 
-                    Cliente clienteEncontrado = null;
-                    for (Cliente c : bancoClientes) {
-                        if (c.getId() == idBuscado) {
-                            clienteEncontrado = c;
-                            break;
-                        }
-                    }
+                   
+                    ClienteDAO clienteDaoBusca = new ClienteDAO();
+                    Cliente clienteEncontrado = clienteDaoBusca.buscarPorId(idBuscado);
 
                     if (clienteEncontrado == null) {
-                        System.out.println("❌ Erro: Nenhum cliente encontrado com este ID!");
+                        System.out.println("❌ Erro: Nenhum cliente encontrado no banco com o ID " + idBuscado + "!");
                         break; 
                     }
 
-                    System.out.println("👤 Cliente encontrado: " + clienteEncontrado.getNome());
+               
+                    System.out.println("👤 Cliente encontrado no MySQL: " + clienteEncontrado.getNome());
+                    
                     System.out.print("Digite o ID do agendamento: ");
                     int idAgendamento = teclado.nextInt();
                     teclado.nextLine(); 
@@ -78,20 +81,28 @@ public class Main {
                     System.out.print("Digite o tipo de serviço: ");
                     String servicoAgendamento = teclado.nextLine();
 
+                  
                     Agendamento novoAgendamento = new Agendamento(idAgendamento, dataAgendamento, horaAgendamento, servicoAgendamento, clienteEncontrado);
-                    bancoAgendamentos.add(novoAgendamento);
 
-                    System.out.println("✅ Agendamento realizado com sucesso!");
+   
+                    AgendamentoDAO agendamentoDao = new AgendamentoDAO();
+                    agendamentoDao.salvar(novoAgendamento);
+
                     break;
 
+
                 case 3:
-                    System.out.println("\n=== LISTA DE AGENDAMENTOS CADASTRADOS ===");
-                    if (bancoAgendamentos.isEmpty()) {
+                    System.out.println("\n=== LISTA DE AGENDAMENTOS CADASTRADOS (MYSQL) ===");
+
+                    AgendamentoDAO agendamentoDaoListagem = new AgendamentoDAO();
+                    java.util.List<Agendamento> todosAgendamentos = agendamentoDaoListagem.listarTodos();
+
+                    if (todosAgendamentos.isEmpty()) {
                         System.out.println("⚠️ Nenhum agendamento realizado até o momento.");
                         break;
                     }
 
-                    for (Agendamento ag : bancoAgendamentos) {
+                    for (Agendamento ag : todosAgendamentos) {
                         System.out.println("\n-----------------------------------------");
                         System.out.println("ID Agendamento: " + ag.getId());
                         System.out.println("Serviço:        " + ag.getServico());
@@ -101,6 +112,7 @@ public class Main {
                         System.out.println("-----------------------------------------");
                     }
                     break;
+
 
                 case 4:
                     System.out.println("\nSaindo do sistema... Obrigado!");

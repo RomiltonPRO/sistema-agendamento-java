@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Agendamento</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>📅 Agendamento Geral</h3>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="active">📊 Painel Geral</a>
+                <a href="agendar.html">➕ Novo Agendamento</a>
+                <a href="#" id="btnLogout">🚪 Sair</a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="main-header">
+                <h2>Dashboard - Visão Geral</h2>
+                <a href="agendar.html" class="btn-primary btn-header">➕ Novo Agendamento</a>
+            </header>
+
+            <!-- Cards de Resumo Informativo -->
+            <section class="cards-grid">
+                <div class="card">
+                    <h4>Total Agendados</h4>
+                    <p class="card-number">24</p>
+                </div>
+                <div class="card">
+                    <h4>Próximas 24h</h4>
+                    <p class="card-number color-blue">7</p>
+                </div>
+                <div class="card">
+                    <h4>Pendentes</h4>
+                    <p class="card-number color-orange">3</p>
+                </div>
+            </section>
+
+            <!-- Tabela Coringa de Agendamentos -->
+            <section class="table-container">
+                <h3>Próximos Compromissos</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Serviço/Recurso</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaAgendamentos">
+                        <!-- Os dados do banco (MySQL) serão injetados aqui via JS -->
+                        <tr>
+                            <td>Ana Silva</td>
+                            <td>Consultoria Geral</td>
+                            <td>26/10/2026</td>
+                            <td>10:00 - 11:00</td>
+                            <td><span class="status-badge confirmado">Confirmado</span></td>
+                            <td>
+                                <button class="btn-action edit">✏️</button>
+                                <button class="btn-action delete">🗑️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bruno Souza</td>
+                            <td>Manutenção Preventiva</td>
+                            <td>26/10/2026</td>
+                            <td>14:00 - 15:00</td>
+                            <td><span class="status-badge pendente">Pendente</span></td>
+                            <td>
+                                <button class="btn-action edit">✏️</button>
+                                <button class="btn-action delete">🗑️</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/agendamentos.js"></script>
+</body>
+</html>

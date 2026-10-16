@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Agendamento - Sistema Coringa</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Menu Lateral (Mantendo o padrão do sistema) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>📅 Agendamento Geral</h3>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html">📊 Painel Geral</a>
+                <a href="#" class="active">➕ Novo Agendamento</a>
+                <a href="index.html">🚪 Sair</a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal / Formulário -->
+        <main class="main-content">
+            <header class="main-header">
+                <h2>Cadastrar Novo Agendamento</h2>
+            </header>
+
+            <section class="form-container">
+                <form id="agendamentoForm">
+                    <div class="input-group">
+                        <label for="clienteNome">Nome do Cliente</label>
+                        <input type="text" id="clienteNome" required placeholder="Digite o nome completo">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="servicoTipo">Serviço / Recurso</label>
+                        <select id="servicoTipo" required>
+                            <option value="">Selecione uma opção...</option>
+                            <option value="Consultoria Geral">Consultoria Geral</option>
+                            <option value="Manutenção Preventiva">Manutenção Preventiva</option>
+                            <option value="Atendimento Padrão">Atendimento Padrão</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="dataAgendamento">Data</label>
+                            <input type="date" id="dataAgendamento" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="horaAgendamento">Horário</label>
+                            <input type="time" id="horaAgendamento" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Confirmar Agendamento</button>
+                        <a href="dashboard.html" class="btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+</body>

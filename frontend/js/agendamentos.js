@@ -1,103 +1,42 @@
-// Assim que a página carregar, verifica o que precisa rodar
+// Aguarda a página carregar totalmente para buscar os dados
 document.addEventListener("DOMContentLoaded", () => {
-    // Se existir a tabela na página atual, carrega os dados
-    if (document.getElementById("tabelaAgendamentos")) {
-        carregarAgendamentos();
-    }
-
-    // Se existir o formulário na página atual, ativa o escutador de envio
-    if (document.getElementById("agendamentoForm")) {
-        configurarFormulario();
-    }
+    carregarAgendamentos();
 });
 
-// 📊 FUNÇÃO 1: Carrega os dados na tabela do Dashboard
-async function carregarAgendamentos() {
-    console.log("Buscando agendamentos salvos no banco de dados...");
-
-    try {
-        // Mock dos dados que virão das suas classes DAO do Java
-        const agendamentosFakes = [
-            { id: 1, cliente: "Carlos Lima", servico: "Consultoria Geral", data: "27/10/2026", hora: "10:00 - 11:00", status: "Confirmado" },
-            { id: 2, cliente: "Daniela Castro", servico: "Manutenção Preventiva", data: "28/10/2026", hora: "14:00 - 15:00", status: "Pendente" },
-            { id: 3, cliente: "Eduardo Costa", servico: "Atendimento Padrão", data: "29/10/2026", hora: "16:00 - 17:00", status: "Confirmado" }
-        ];
-
-        const tabela = document.getElementById("tabelaAgendamentos");
-        tabela.innerHTML = ""; 
-
-        agendamentosFakes.forEach(agendamento => {
-            const classeStatus = agendamento.status === "Confirmado" ? "confirmado" : "pendente";
+function carregarAgendamentos() {
+    // Faz a requisição para a sua API Java (Back-End)
+    fetch('http://localhost:8080/agendamentos')
+        .then(resposta => resposta.json()) // Transforma a resposta em formato JSON
+        .then(dados => {
+            // Encontra a tabela no seu HTML
+            const corpoTabela = document.getElementById('tabela-agendamentos');
             
-            const linha = `
-                <tr>
-                    <td>${agendamento.cliente}</td>
-                    <td>${agendamento.servico}</td>
-                    <td>${agendamento.data}</td>
-                    <td>${agendamento.hora}</td>
-                    <td><span class="status-badge ${classeStatus}">${agendamento.status}</span></td>
-                    <td>
-                        <button class="btn-action edit" onclick="editar(${agendamento.id})">✏️</button>
-                        <button class="btn-action delete" onclick="excluir(${agendamento.id})">🗑️</button>
+            // Limpa a tabela antes de preencher
+            corpoTabela.innerHTML = ''; 
+
+            // Percorre a lista de dados que veio do banco e desenha as linhas
+            dados.forEach(agendamento => {
+                const linha = document.createElement('tr');
+                
+                // Monta o visual de cada linha com os dados reais
+                linha.innerHTML = `
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">${agendamento.nome}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">${agendamento.servico}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">${agendamento.data}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">${agendamento.horario}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">
+                        <span style="background-color: #d1fae5; color: #065f46; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">
+                            ${agendamento.status}
+                        </span>
                     </td>
-                </tr>
-            `;
-            tabela.innerHTML += linha;
+                    <td style="padding: 15px; border-bottom: 1px solid #eee;">✏️ 🗑️</td>
+                `;
+                
+                // Adiciona a linha preenchida na tabela
+                corpoTabela.appendChild(linha);
+            });
+        })
+        .catch(erro => {
+            console.error("Erro ao carregar dados da API:", erro);
         });
-
-    } catch (error) {
-        console.error("Erro ao buscar dados do servidor Java:", error);
-    }
-}
-
-// ➕ FUNÇÃO 2: Captura os dados digitados na tela de Novo Agendamento
-function configurarFormulario() {
-    document.getElementById("agendamentoForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Impede o navegador de recarregar a página
-
-        // Capturando os valores dos inputs do HTML
-        const nomeCliente = document.getElementById("clienteNome").value;
-        const tipoServico = document.getElementById("servicoTipo").value;
-        const dataEscolha = document.getElementById("dataAgendamento").value;
-        const horaEscolha = document.getElementById("horaAgendamento").value;
-
-        // Montando o objeto JSON (Padrão de transferência de dados)
-        const novoAgendamento = {
-            cliente: nomeCliente,
-            servico: tipoServico,
-            data: dataEscolha,
-            hora: horaEscolha,
-            status: "Pendente" // Todo agendamento novo começa como pendente
-        };
-
-        console.log("Objeto pronto para ser enviado ao Java/DAO:", novoAgendamento);
-
-        // Exibe um alerta simulando o sucesso da operação
-        alert(`Sucesso!\nAgendamento para "${nomeCliente}" capturado no Front-End.\nPróximo passo: Salvar no MySQL usando o Java.`);
-        
-        // Redireciona o usuário de volta para o Painel Geral
-        window.location.href = "dashboard.html";
-    });
-}
-
-// 🛠️ FUNÇÕES DE AÇÃO DA TABELA
-function editar(id) {
-    alert("Função Editar: Enviando comando para o Java alterar o ID " + id);
-}
-
-function excluir(id) {
-    if(confirm("Deseja deletar este agendamento do MySQL?")) {
-        alert("Função Excluir: Executando DAO.deletar() no Java para o ID " + id);
-    }
-}
-
-// 🚪 LOGOUT (BOTÃO SAIR)
-const btnLogout = document.getElementById('btnLogout');
-if (btnLogout) {
-    btnLogout.addEventListener('click', function(event) {
-        event.preventDefault();
-        if(confirm("Deseja realmente sair do sistema coringa?")) {
-            window.location.href = "index.html";
-        }
-    });
 }

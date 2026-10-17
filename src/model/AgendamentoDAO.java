@@ -8,28 +8,29 @@ import java.util.List;
 
 public class AgendamentoDAO {
 
-    // Método que recebe o agendamento e salva no MySQL
+    
     public void salvar(Agendamento agendamento) {
-        String sql = "INSERT INTO agendamento (id, data, hora, servico, cliente_id) VALUES (?, ?, ?, ?, ?)";
+        
+        String sql = "INSERT INTO agendamento (data, hora, servico, cliente_id) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = ConexaoBanco.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setInt(1, agendamento.getId());
-            stmt.setString(2, agendamento.getData());
-            stmt.setString(3, agendamento.getHora());
-            stmt.setString(4, agendamento.getServico());
-            stmt.setInt(5, agendamento.getCliente().getId());
+            
+            stmt.setString(1, agendamento.getData());
+            stmt.setString(2, agendamento.getHora());
+            stmt.setString(3, agendamento.getServico());
+            stmt.setInt(4, agendamento.getCliente().getId());
             
             stmt.executeUpdate();
-            System.out.println("💾 Agendamento saved no Banco de Dados MySQL com sucesso!");
+            System.out.println("💾 Agendamento salvo no Banco de Dados MySQL com sucesso!");
             
         } catch (SQLException e) {
             System.out.println("❌ Erro ao salvar agendamento no banco: " + e.getMessage());
         }
     }
 
-    // Método que vai no MySQL buscar TODOS os agendamentos cadastrados
+    
     public List<Agendamento> listarTodos() {
         List<Agendamento> lista = new ArrayList<>();
         

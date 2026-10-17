@@ -3,64 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novo Agendamento - Sistema Coringa</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <title>Novo Agendamento</title>
+    
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; background-color: #f8fafc; }
+        .sidebar { width: 250px; background-color: #1e293b; color: white; height: 100vh; padding-top: 20px; }
+        .sidebar h2 { text-align: center; font-size: 18px; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        .menu a { display: block; padding: 15px 20px; color: #cbd5e1; text-decoration: none; }
+        .menu a.ativo { background-color: #334155; color: white; border-left: 4px solid #3b82f6; }
+        .main-content { flex: 1; padding: 30px; }
+        
+        /* Estilos específicos do formulário */
+        .form-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); max-width: 500px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #0f172a; font-weight: bold; font-size: 14px; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
+        .btn-salvar { background-color: #22c55e; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; font-size: 16px; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn-salvar:hover { background-color: #16a34a; }
+    </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Menu Lateral (Mantendo o padrão do sistema) -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h3>📅 Agendamento Geral</h3>
-            </div>
-            <nav class="sidebar-menu">
-                <a href="dashboard.html">📊 Painel Geral</a>
-                <a href="#" class="active">➕ Novo Agendamento</a>
-                <a href="index.html">🚪 Sair</a>
-            </nav>
-        </aside>
 
-        <!-- Conteúdo Principal / Formulário -->
-        <main class="main-content">
-            <header class="main-header">
-                <h2>Cadastrar Novo Agendamento</h2>
-            </header>
+    <!-- Menu Lateral -->
+    <aside class="sidebar">
+        <h2>📅 Agendamento Geral</h2>
+        <nav class="menu">
+            <a href="dashboard.html">📊 Painel Geral</a>
+            <a href="agendar.html" class="ativo">➕ Novo Agendamento</a>
+            <a href="index.html" style="margin-top: 20px;">🚪 Sair</a>
+        </nav>
+    </aside>
 
-            <section class="form-container">
-                <form id="agendamentoForm">
-                    <div class="input-group">
-                        <label for="clienteNome">Nome do Cliente</label>
-                        <input type="text" id="clienteNome" required placeholder="Digite o nome completo">
-                    </div>
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <h1 style="margin: 0 0 30px 0; color: #0f172a;">Cadastrar Novo Agendamento</h1>
 
-                    <div class="input-group">
-                        <label for="servicoTipo">Serviço / Recurso</label>
-                        <select id="servicoTipo" required>
-                            <option value="">Selecione uma opção...</option>
-                            <option value="Consultoria Geral">Consultoria Geral</option>
-                            <option value="Manutenção Preventiva">Manutenção Preventiva</option>
-                            <option value="Atendimento Padrão">Atendimento Padrão</option>
-                        </select>
-                    </div>
+        <!-- Formulário de Cadastro -->
+        <section class="form-container">
+            <form id="form-agendamento">
+                <div class="form-group">
+                    <label for="nome">Nome do Cliente</label>
+                    <input type="text" id="nome" placeholder="Digite o nome completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="servico">Serviço ou Recurso</label>
+                    <input type="text" id="servico" placeholder="Ex: Corte de Cabelo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="data">Data</label>
+                    <input type="text" id="data" placeholder="DD/MM/AAAA" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="horario">Horário</label>
+                    <input type="text" id="horario" placeholder="Ex: 14:30" required>
+                </div>
 
-                    <div class="form-row">
-                        <div class="input-group">
-                            <label for="dataAgendamento">Data</label>
-                            <input type="date" id="dataAgendamento" required>
-                        </div>
+                <button type="submit" class="btn-salvar">Salvar Agendamento</button>
+            </form>
+        </section>
+    </main>
 
-                        <div class="input-group">
-                            <label for="horaAgendamento">Horário</label>
-                            <input type="time" id="horaAgendamento" required>
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn-primary">Confirmar Agendamento</button>
-                        <a href="dashboard.html" class="btn-secondary">Cancelar</a>
-                    </div>
-                </form>
-            </section>
-        </main>
-    </div>
+    <!-- Ligação com o próximo arquivo JS que vamos criar -->
+    <script src="js/enviar-agendamento.js"></script>
 </body>
+</html>
